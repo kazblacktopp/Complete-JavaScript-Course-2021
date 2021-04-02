@@ -1,6 +1,6 @@
 # JavaScript Fundamentals - Part 1
 
-![JavaScript Fundamentals - Part 1](.images/js-fundamentals1.jpg)
+![JavaScript Fundamentals - Part 1](./images/js-fundamentals1.jpg)
 
 ## HI! 👋🏽
 
