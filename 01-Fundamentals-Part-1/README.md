@@ -1,6 +1,6 @@
 # Code Challenges for JavaScript Fundamentals - Part 1
 
-![JavaScript Fundamentals - Part 1 Coding Challenges](./images/js-fundamentals1.jpg)
+![JavaScript Fundamentals - Part 1 Coding Challenges](../images/js-fundamentals1.jpg)
 
 ## Welcome! 👋🏽
 
