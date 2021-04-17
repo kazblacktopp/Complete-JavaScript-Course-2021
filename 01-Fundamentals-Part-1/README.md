@@ -4,7 +4,7 @@
 
 ## Welcome! 👋🏽
 
-Here you will find the instructions for all the coding challenges for `JavaScript Fundamentals Part-1`.
+Here you will find the instructions for all the coding challenges for the `JavaScript Fundamentals Part-1` section of the Udemy course [The Complete JavaScript Course 2021: From Zero to Expert!](https://www.udemy.com/course/the-complete-javascript-course/), created by [Jonas Schmedtmann](https://www.udemy.com/user/jonasschmedtmann/).
 
 Each coding challenge can be executed using the [index.html](./index.html) file in the [01-Fundamentals-Part-1](../01-Fundamentals-Part-1) directory.
 
