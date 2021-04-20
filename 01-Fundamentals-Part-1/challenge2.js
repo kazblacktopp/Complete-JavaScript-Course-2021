@@ -1,3 +1,4 @@
+"use strict";
 console.log(`Coding Challenge #2:`);
 
 // Test data 1:
@@ -13,9 +14,13 @@ markBMI = massMark / heightMark ** 2;
 johnBMI = massJohn / (heightJohn * heightJohn);
 
 if (markBMI > johnBMI) {
-    console.log(`Mark's BMI (${markBMI}) is higher than John's BMI (${johnBMI})!`);
+  console.log(
+    `Mark's BMI (${markBMI}) is higher than John's BMI (${johnBMI})!`
+  );
 } else {
-    console.log(`John's BMI (${johnBMI}) is higher than Mark's BMI (${markBMI})!`);
+  console.log(
+    `John's BMI (${johnBMI}) is higher than Mark's BMI (${markBMI})!`
+  );
 }
 
 // Test data 2:
@@ -29,7 +34,11 @@ markBMI = massMark / heightMark ** 2;
 johnBMI = massJohn / (heightJohn * heightJohn);
 
 if (markBMI > johnBMI) {
-    console.log(`Mark's BMI (${markBMI}) is higher than John's BMI (${johnBMI})!`);
+  console.log(
+    `Mark's BMI (${markBMI}) is higher than John's BMI (${johnBMI})!`
+  );
 } else {
-    console.log(`John's BMI (${johnBMI}) is higher than Mark's BMI (${markBMI})!`);
+  console.log(
+    `John's BMI (${johnBMI}) is higher than Mark's BMI (${markBMI})!`
+  );
 }

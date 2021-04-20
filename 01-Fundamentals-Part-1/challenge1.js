@@ -1,3 +1,4 @@
+"use strict";
 console.log(`Coding Challenge #1:`);
 
 // TEST DATA 1:
