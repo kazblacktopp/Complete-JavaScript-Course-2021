@@ -19,3 +19,38 @@ We're building a football betting app (soccer for my American friends 😅)! Sup
 First, use players `Davies`, `Muller`, `Lewandowski` and `Kimmich`. Then, call the function again with the players from `game.scored`.
 
 Happy Coding! 🚀
+
+## Coding Challenge #2
+
+Let's continue with our football betting app! Keep using the `game` variable from before.
+
+### Your Tasks:
+
+1. Loop over the `game.scored` array and print each player name to the console, along with the goal number.
+
+#### Example:
+
+```
+Goal 1: Lewandowski
+```
+
+2. Use a loop to calculate the average odds and log it to the console (We already studied how to calculate averages, you can go check if you don't remember).
+3. Print the 3 odds to the console, but in a nice formatted way, exactly like this:
+
+```
+Odds of Bayern Munich victory: 1.33
+Odds of draw: 3.25
+Odds of Borrussia Dortmund victory: 6.5
+```
+
+4. **Bonus**: Create an object called 'scorers' which contains the names of the players who scored as properties, and the number of goals as the value. In this game, it will look like this:
+
+```
+{
+  Gnarby: 1,
+  Hummels: 1,
+  Lewandowski: 2
+}
+```
+
+Happy Coding! 🚀
