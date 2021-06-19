@@ -40,3 +40,15 @@ A poll has a question, an array of options from which people can choose, and an 
 5. **Bonus**: Use the `displayResults` method to display the 2 arrays in the test data. Use both the `array` and the `string` option. Do not put the arrays in the poll object! So what should the this keyword look like in this situation?
 
 Happy coding! 🚀
+
+## Coding Challenge #2
+
+This is more of a thinking challenge than a coding challenge 🤓.
+
+### Your tasks:
+
+1. At the end of the IIFE function in the code attach an event listener that changes the color of the selected h1 element, `header`, to blue, each time the body element is clicked. Do not select the h1 element again!
+
+2. And now explain to yourself (or someone around you) why this worked! Take all the time you need. Think about when exactly the callback function is executed, and what that means for the variables involved in this example.
+
+Happy coding! 🚀
