@@ -1,8 +1,8 @@
 "use strict";
 
 /////////////////////////////////////////////////
+////////////////// BANKIST APP //////////////////
 /////////////////////////////////////////////////
-// BANKIST APP
 
 // Data
 const account1 = {
@@ -67,8 +67,11 @@ const currencies = new Map([
   ["GBP", "Pound sterling"],
 ]);
 
+// Displays stored movements after login
 const displayMovements = function (movements) {
-  containerMovements.innerHTML = 0;
+  containerApp.style.opacity = 1;
+
+  containerMovements.innerHTML = "";
 
   movements.forEach((mov, i) => {
     const type = mov > 0 ? "deposit" : "withdrawal";
@@ -78,11 +81,91 @@ const displayMovements = function (movements) {
         <div class="movements__type movements__type--${type}">${
       i + 1
     }: ${type}</div>
-        <div class="movements__value">${mov}</div>
+        <div class="movements__value">${mov}€</div>
       </div>
    `;
 
     containerMovements.insertAdjacentHTML("afterbegin", html);
   });
 };
-displayMovements(account1.movements);
+
+// Create usernames for each stored account
+const createUsername = accts => {
+  accts.forEach(acct => {
+    acct.username = acct.owner
+      .toLowerCase()
+      .split(" ")
+      .map(name => name[0])
+      .join("");
+  });
+};
+
+createUsername(accounts);
+
+const calcDisplaySummary = acc => {
+  const sumIn = acc.movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+
+  labelSumIn.textContent = `${sumIn}€`;
+
+  labelSumOut.textContent = `${Math.abs(
+    acc.movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0)
+  )}€`;
+
+  labelSumInterest.textContent = `${(sumIn * acc.interestRate) / 100}€`;
+};
+
+const calcDisplayBalance = acct => {
+  acct.balance = acct.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acct.balance}€`;
+};
+
+// Event handler
+btnLogin.addEventListener("click", function (e) {
+  e.preventDefault(); // prevents form from submitting
+  const activeAccount = accounts.find(
+    acct => acct.username === inputLoginUsername.value.toLowerCase()
+  );
+
+  if (activeAccount?.pin === Number(inputLoginPin.value)) {
+    inputLoginUsername.value = inputLoginPin.value = "";
+    inputLoginUsername.blur();
+    inputLoginPin.blur();
+    labelWelcome.textContent = `Welcome back, ${
+      activeAccount.owner.split(" ")[0]
+    }`;
+    displayUI(activeAccount);
+    activateInputFields(activeAccount);
+  }
+});
+
+const displayUI = acct => {
+  displayMovements(acct.movements);
+  calcDisplayBalance(acct);
+  calcDisplaySummary(acct);
+};
+
+const activateInputFields = acct => {
+  btnTransfer.addEventListener("click", e => {
+    e.preventDefault();
+
+    const recipient = accounts.find(
+      acct => acct.username === inputTransferTo.value.toLowerCase()
+    );
+    const transAmount = Number(inputTransferAmount.value);
+
+    if (
+      transAmount > 0 &&
+      recipient &&
+      acct.balance >= transAmount &&
+      recipient.username != acct.username
+    ) {
+      acct.movements.push(-transAmount);
+      recipient.movements.push(transAmount);
+      displayUI(acct);
+    }
+
+    inputTransferTo.value = inputTransferAmount.value = "";
+  });
+};
