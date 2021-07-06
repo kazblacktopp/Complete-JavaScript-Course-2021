@@ -19,7 +19,7 @@ const account1 = {
     "2021-06-14T23:36:17.929Z",
     "2021-06-28T23:36:17.929Z",
     "2021-07-01T23:36:17.929Z",
-    "2021-07-03T23:36:17.929Z",
+    "2021-07-04T23:36:17.929Z",
   ],
   currency: "EUR",
   locale: "pt-PT", // de-DE
@@ -46,7 +46,7 @@ const account2 = {
 };
 
 const accounts = [account1, account2];
-let activeAccount;
+let activeAccount, timer;
 let sorted = false;
 
 // Elements
@@ -79,9 +79,11 @@ const formatMovementDate = (locale, date) => {
   const calcDaysPassed = (date1, date2) =>
     Math.round(Math.abs((date1 - date2) / (1000 * 60 * 60 * 24)));
   const daysPassed = calcDaysPassed(Date.now(), date);
-  if (daysPassed === 0) return `today`;
-  if (daysPassed === 1) return `yesterday`;
-  if (daysPassed <= 7) return `${daysPassed} days ago`;
+  if (daysPassed <= 7)
+    return new Intl.RelativeTimeFormat(`en`, { numeric: "auto" }).format(
+      -daysPassed,
+      "day"
+    );
   return new Intl.DateTimeFormat(locale).format(date);
 };
 
@@ -197,7 +199,30 @@ const displayUI = acct => {
   calcDisplaySummary(acct);
 };
 
-// Event handler
+const logOutUser = () => {
+  clearInterval(timer);
+  activeAccount = {};
+  containerApp.style.opacity = 0;
+  labelWelcome.textContent = `Log in to get started`;
+};
+
+const startLogOutTimer = () => {
+  let logOutCounter = 5;
+  const tick = () => {
+    const minutes = String(Math.trunc(logOutCounter / 60)).padStart(2, "0");
+    const seconds = String(logOutCounter % 60).padStart(2, "0");
+    labelTimer.textContent = `${minutes}:${seconds}`;
+    if (logOutCounter === 0) {
+      logOutUser();
+    }
+    logOutCounter--;
+  };
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+};
+
+// Event handlers
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
   activeAccount = accounts.find(
@@ -212,6 +237,8 @@ btnLogin.addEventListener("click", function (e) {
       activeAccount.owner.split(" ")[0]
     }`;
     displayUI(activeAccount);
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
   }
 });
 
@@ -230,11 +257,15 @@ btnTransfer.addEventListener("click", e => {
     activeAccount.balance >= transAmount &&
     recipient.username != activeAccount.username
   ) {
-    activeAccount.movements.push(-transAmount);
-    activeAccount.movementsDates.push(transDate);
-    recipient.movements.push(transAmount);
-    recipient.movementsDates.push(transDate);
-    displayUI(activeAccount);
+    setTimeout(() => {
+      activeAccount.movements.push(-transAmount);
+      activeAccount.movementsDates.push(transDate);
+      recipient.movements.push(transAmount);
+      recipient.movementsDates.push(transDate);
+      displayUI(activeAccount);
+    }, 3000);
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 
   inputTransferTo.value = inputTransferAmount.value = "";
@@ -248,9 +279,13 @@ btnLoan.addEventListener("click", e => {
     loanAmount > 0 &&
     activeAccount.movements.some(mov => mov >= loanAmount * 0.1)
   ) {
-    activeAccount.movements.push(loanAmount);
-    activeAccount.movementsDates.push(new Date().toISOString());
-    displayUI(activeAccount);
+    setTimeout(function () {
+      activeAccount.movements.push(loanAmount);
+      activeAccount.movementsDates.push(new Date().toISOString());
+      displayUI(activeAccount);
+    }, 3000);
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
   inputLoanAmount.value = "";
 });
@@ -270,9 +305,7 @@ btnClose.addEventListener("click", e => {
         acc => acc.username === activeAccount.username
       );
       accounts.splice(index, 1);
-      activeAccount = {};
-      containerApp.style.opacity = 0;
-      labelWelcome.textContent = `Log in to get started`;
+      logOutUser();
     }
     inputCloseUsername.value = inputClosePin.value = "";
   }
@@ -283,14 +316,3 @@ btnSort.addEventListener("click", e => {
   displayMovements(activeAccount, !sorted);
   sorted = !sorted;
 });
-
-// FAKE ALWAYS LOGGED IN
-
-activeAccount = account1;
-displayUI(activeAccount);
-
-// const currencies = new Map([
-//   ["USD", "United States dollar"],
-//   ["EUR", "Euro"],
-//   ["GBP", "Pound sterling"],
-// ]);
