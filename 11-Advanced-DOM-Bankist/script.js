@@ -3,8 +3,6 @@
 ///////////////////////////////////////
 // DOM Elements
 
-const body = document.querySelector("body");
-
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
@@ -42,7 +40,7 @@ cookieMessage.classList.add("cookie-message");
 cookieMessage.innerHTML =
   'We use cookies for improved functionality and analytics. <button class="btn btn--close-cookie">Got it!</button>';
 
-body.prepend(cookieMessage);
+document.body.prepend(cookieMessage);
 
 document
   .querySelector(".btn--close-cookie")
